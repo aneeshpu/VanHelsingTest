@@ -34,5 +34,9 @@ public class TrainerTest {
 		assertThat(trainer.conditionalProbability("water", Classification.GOOD), IsEqual.<Float>equalTo(1/3f));
 		assertThat(trainer.conditionalProbability("nobody", Classification.GOOD), IsEqual.<Float>equalTo(1/3f));
 		assertThat(trainer.conditionalProbability("fox", Classification.GOOD), IsEqual.<Float>equalTo(1/3f));
+		assertThat(trainer.conditionalProbability("nonexistentword", Classification.GOOD), IsEqual.<Float>equalTo(0f));
+		assertThat(trainer.conditionalProbability("nonexistentword", Classification.BAD), IsEqual.<Float>equalTo(0f));
 	}
+	
+	
 }

@@ -7,9 +7,11 @@ import static org.hamcrest.core.Is.is;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.hamcrest.core.Is;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Test;
+
+import com.vanhelsing.collections.DefaultFunction;
+import com.vanhelsing.collections.DefaultMap;
 
 public class DefaultMapTest {
 

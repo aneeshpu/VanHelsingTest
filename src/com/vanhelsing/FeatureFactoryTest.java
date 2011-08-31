@@ -27,11 +27,11 @@ public class FeatureFactoryTest {
 		Set<String> features = new HashSet<String>();
 		features.add("money");
 		features.add("quick");
-		Set<Feature> feature = new FeatureFactory().makeFeatures(features, trainer);
+		Set<Word> feature = new FeatureFactory().makeFeatures(features, trainer);
 		
 		assertThat(feature.size(), is(2));
-		assertThat(feature.contains(new Feature("money", trainer)), is(true));
-		assertThat(feature.contains(new Feature("quick", trainer)), is(true));
+		assertThat(feature.contains(new Word("money", trainer)), is(true));
+		assertThat(feature.contains(new Word("quick", trainer)), is(true));
 		
 	}
 }

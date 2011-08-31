@@ -5,7 +5,7 @@ import static junit.framework.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ClassifierTest {
+public class NaiveBayesianClassifierTest {
 
 	private TrainingData trainer;
 

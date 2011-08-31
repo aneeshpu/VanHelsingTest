@@ -33,4 +33,9 @@ public class ProbabilityTest {
 		Probability probability = new Probability(0.123f);
 		assertThat(probability.toString(), is("0.123"));
 	}
+	
+	@Test
+	public void determines_if_one_probability_is_greater_than_another() {
+		assertThat(new Probability(0.5f).isGreaterThan(new Probability(0.25f)), is(true));
+	}
 }

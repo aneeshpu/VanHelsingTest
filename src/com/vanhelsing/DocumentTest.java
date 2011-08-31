@@ -11,6 +11,8 @@ import org.hamcrest.core.IsEqual;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.sun.org.apache.bcel.internal.generic.DCONST;
+
 public class DocumentTest {
 
 	private Document document;
@@ -30,19 +32,28 @@ public class DocumentTest {
 	@Test
 	public void gives_individual_features_of_the_document() {
 
-		Set<Word> features = document.uniqueFeatures();
+		Set<Feature> features = document.uniqueFeatures();
 
-		assertThat(features.size(), is(6));
+		assertThat(features.size(), is(5));
 
-		for (Feature feature : new Feature[] { new Word("make", trainer), new Word("quick", trainer), new Word("money", trainer), new Word("at", trainer), new Word("the", trainer),
-				new Word("casino", trainer) }) {
+		for (Feature feature : new Feature[] { new Word("make", trainer), new Word("quick", trainer), new Word("money", trainer), new Word("the", trainer), new Word("casino", trainer) }) {
 			assertThat(features.contains(feature), is(true));
 		}
 	}
 
 	@Test
+	public void words_smaller_than_three_characters_are_ignored() {
+		Set<Feature> features = document.uniqueFeatures();
+
+		assertThat(features.size(), is(5));
+
+		assertThat(features.contains(new Word("at", trainer)), is(false));
+
+	}
+
+	@Test
 	public void all_features_get_converted_to_lower_case() {
-		Set<Word> features = document.uniqueFeatures();
+		Set<Feature> features = document.uniqueFeatures();
 
 		assertThat(features.contains("Make"), is(false));
 		assertThat(features.contains("At"), is(false));
@@ -59,7 +70,13 @@ public class DocumentTest {
 
 		Document document = new Document("make quick money at the online casino", new FeatureFactory(), trainer);
 
-		assertThat(document.conditionalProbability(Classification.BAD).round(), equalTo(new Probability(0.008f)));
+		assertThat(document.conditionalProbability(Classification.BAD).round(), equalTo(new Probability(0.016f)));
+	}
+	
+	@Test
+	public void prints_a_string_representation() {
+		Document document = new Document("make quick money at the online casino", new FeatureFactory(), trainer);
+		assertThat(document.toString(), is("make quick money at the online casino"));
 	}
 
 }

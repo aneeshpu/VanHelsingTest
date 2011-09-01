@@ -16,15 +16,16 @@ public class NaiveBayesianClassifierTest {
 		trainer.train(new Document("make quick money at the online casino", new FeatureFactory(), trainer), Classification.BAD)
 				.train(new Document("buy pharmaceuticals now", new FeatureFactory(), trainer), Classification.BAD)
 				.train(new Document("Nobody owns the water", new FeatureFactory(), trainer), Classification.GOOD)
-				.train(new Document("water the quick rabbit jumps fences", new FeatureFactory(), trainer), Classification.GOOD)
-				.train(new Document("the water quick brown fox jumps", new FeatureFactory(), trainer), Classification.GOOD);
+				.train(new Document("the quick rabbit jumps fences", new FeatureFactory(), trainer), Classification.GOOD)
+				.train(new Document("the quick brown fox jumps", new FeatureFactory(), trainer), Classification.GOOD);
 	}
 
 	@Test
-	public void classifies_a_document_as_bad() {
+	public void classifies_a_document_as_spam() {
 		Classification classification = new NaiveBayesianClassifier(trainer).classify(new Document("make quick money at the online casino", new FeatureFactory(), trainer));
 		assertEquals(Classification.BAD, classification);
 	}
+
 	
 	@Test
 	@Ignore
@@ -34,6 +35,4 @@ public class NaiveBayesianClassifierTest {
 		System.out.println(document.conditionalProbability(Classification.BAD));
 		System.out.println(document.conditionalProbability(Classification.GOOD));
 	}
-
-
 }

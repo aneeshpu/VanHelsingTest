@@ -19,10 +19,11 @@ public class WordTest {
 		trainer = new TrainingData();
 		trainer.train(new Document("make quick money at the online casino", new FeatureFactory(), trainer), Classification.BAD)
 				.train(new Document("buy pharmaceuticals now", new FeatureFactory(), trainer), Classification.BAD)
+				.train(new Document("buy cheap stuff for easy money", new FeatureFactory(), trainer), Classification.BAD)
+				
 				.train(new Document("Nobody owns the water", new FeatureFactory(), trainer), Classification.GOOD)
 				.train(new Document("the quick rabbit jumps fences", new FeatureFactory(), trainer), Classification.GOOD)
-				.train(new Document("the quick brown fox jumps", new FeatureFactory(), trainer), Classification.GOOD)
-				.train(new Document("buy cheap stuff for easy money", new FeatureFactory(), trainer), Classification.BAD);
+				.train(new Document("the quick brown fox jumps", new FeatureFactory(), trainer), Classification.GOOD);
 
 	}
 
@@ -44,8 +45,9 @@ public class WordTest {
 		assertThat(new Word("money", trainer).conditionalProbability(Classification.BAD).round(), equalTo(new Probability(0.611f)));
 		assertThat(new Word("pharmaceuticals", trainer).conditionalProbability(Classification.BAD).round(), equalTo(new Probability(0.417f)));
 		assertThat(new Word("casino", trainer).conditionalProbability(Classification.BAD).round(), equalTo(new Probability(0.417f)));
-		assertThat(new Word("quick", trainer).conditionalProbability(Classification.BAD).round(), equalTo(new Probability(0.417f)));
-		assertThat(new Word("quick", trainer).conditionalProbability(Classification.GOOD).round(), equalTo(new Probability(0.611f)));
+		assertThat(new Word("quick", trainer).conditionalProbability(Classification.BAD).round(), equalTo(new Probability(0.375f)));
+		
+		assertThat(new Word("quick", trainer).conditionalProbability(Classification.GOOD).round(), equalTo(new Probability(0.625f)));
 		assertThat(new Word("jumps", trainer).conditionalProbability(Classification.GOOD).round(), equalTo(new Probability(0.611f)));
 		assertThat(new Word("water", trainer).conditionalProbability(Classification.GOOD).round(), equalTo(new Probability(0.417f)));
 		assertThat(new Word("nobody", trainer).conditionalProbability(Classification.GOOD).round(), equalTo(new Probability(0.417f)));

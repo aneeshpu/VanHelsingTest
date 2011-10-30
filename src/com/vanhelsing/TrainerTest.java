@@ -1,10 +1,10 @@
 package com.vanhelsing;
 
-import static org.junit.Assert.assertThat;
-
-import org.hamcrest.core.IsEqual;
+import org.easymock.EasyMock;
 import org.junit.Before;
-import org.junit.Test;
+
+import com.vanhelsing.contentProvider.FeatureDao;
+import com.vanhelsing.contentProvider.IClassificationDao;
 
 public class TrainerTest {
 
@@ -12,11 +12,21 @@ public class TrainerTest {
 
 	@Before
 	public void setup() {
-		trainer = new TrainingData();
+		trainer = new TrainingData(featureDaoMock(), classificationDaoMock());
 		trainer.train(new Document("make quick money at the online casino", new FeatureFactory(), trainer), Classification.BAD).train(new Document("buy pharmaceuticals now", new FeatureFactory(), trainer), Classification.BAD)
 				.train(new Document("Nobody owns the water", new FeatureFactory(), trainer), Classification.GOOD).train(new Document("the quick rabbit jumps fences", new FeatureFactory(), trainer), Classification.GOOD)
 				.train(new Document("the quick brown fox jumps", new FeatureFactory(), trainer), Classification.GOOD);
 
+	}
+	
+	private IClassificationDao classificationDaoMock() {
+		final IClassificationDao classificationDao = EasyMock.createMock(IClassificationDao.class);
+		return classificationDao;
+	}
+
+	private FeatureDao featureDaoMock() {
+		final FeatureDao featureDaoMock = EasyMock.createMock(FeatureDao.class);
+		return featureDaoMock;
 	}
 
 /*	@Test

@@ -6,4 +6,9 @@ public class Log {
 		System.out.println(String.format("%s, %s", tag, msg));
 		return 0;
 	}
+	
+	public static int d(String tag, String msg){
+		System.out.println(String.format("%s %s", tag, msg));
+		return 0;
+	}
 }

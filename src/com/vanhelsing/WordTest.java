@@ -11,8 +11,11 @@ import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.vanhelsing.contentProvider.FeatureDao;
 import com.vanhelsing.contentProvider.IClassificationDao;
+import com.vanhelsing.contentProvider.IFeatureDao;
+import com.vanhelsing.mockbuilders.ClassificationDaoMockBuilder;
+import com.vanhelsing.mockbuilders.FeatureDaoMockBuilder;
+import com.vanhelsing.mockbuilders.Times;
 
 public class WordTest {
 
@@ -32,14 +35,11 @@ public class WordTest {
 	}
 	
 	private IClassificationDao classificationDaoMock() {
-		return ClassificationDaoMockBuilder.ClassificationDaoMock().withPersist().create();
+		return ClassificationDaoMockBuilder.ClassificationDaoMock().withPersist().withGet(10,Times.any()).create();
 	}
 
-	private FeatureDao featureDaoMock() {
-		final FeatureDao featureDaoMock = EasyMock.createMock(FeatureDao.class);
-		
-		EasyMock.replay(featureDaoMock);
-		return featureDaoMock;
+	private IFeatureDao featureDaoMock() {
+		return FeatureDaoMockBuilder.featureDaoMock().withGet(Times.any()).withPersist(Times.any()).create();
 	}
 
 	@Test

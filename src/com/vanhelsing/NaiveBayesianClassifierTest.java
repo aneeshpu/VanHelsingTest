@@ -3,20 +3,29 @@ package com.vanhelsing;
 import static junit.framework.Assert.assertEquals;
 
 import org.easymock.EasyMock;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import com.vanhelsing.contentProvider.FeatureDao;
 import com.vanhelsing.contentProvider.IClassificationDao;
+import com.vanhelsing.contentProvider.IFeatureDao;
+import com.vanhelsing.mockbuilders.ClassificationDaoMockBuilder;
+import com.vanhelsing.mockbuilders.FeatureDaoMockBuilder;
+import com.vanhelsing.mockbuilders.Times;
 
 public class NaiveBayesianClassifierTest {
 
 	private TrainingData trainer;
+	private IFeatureDao featureDaoMock;
+	private IClassificationDao classificationDaoMock;
 
 	@Before
 	public void setup() {
-		trainer = new TrainingData(featureDaoMock(), classificationDaoMock());
+		featureDaoMock = featureDaoMock();
+		classificationDaoMock = classificationDaoMock();
+		trainer = new TrainingData(featureDaoMock, classificationDaoMock);
 		trainer.train(new Document("make quick money at the online casino", new FeatureFactory(), trainer), Classification.BAD)
 				.train(new Document("buy pharmaceuticals now", new FeatureFactory(), trainer), Classification.BAD)
 				.train(new Document("Nobody owns the water", new FeatureFactory(), trainer), Classification.GOOD)
@@ -25,11 +34,11 @@ public class NaiveBayesianClassifierTest {
 	}
 	
 	private IClassificationDao classificationDaoMock() {
-		return ClassificationDaoMockBuilder.ClassificationDaoMock().withPersist().create();
+		return ClassificationDaoMockBuilder.ClassificationDaoMock().withPersist().withGet(10, Times.any()).create();
 	}
 
-	private FeatureDao featureDaoMock() {
-		final FeatureDao featureDaoMock = EasyMock.createMock(FeatureDao.class);
+	private IFeatureDao featureDaoMock() {
+		final IFeatureDao featureDaoMock = FeatureDaoMockBuilder.featureDaoMock().withGet(Times.any()).withPersist(Times.any()).create();
 		return featureDaoMock;
 	}
 
@@ -47,5 +56,11 @@ public class NaiveBayesianClassifierTest {
 		Document document = new Document("make quick money at the online casino", new FeatureFactory(), trainer);
 		System.out.println(document.conditionalProbability(Classification.BAD));
 		System.out.println(document.conditionalProbability(Classification.GOOD));
+	}
+	
+	@After
+	public void tearDown(){
+		EasyMock.verify(featureDaoMock);
+		EasyMock.verify(classificationDaoMock);
 	}
 }

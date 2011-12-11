@@ -39,8 +39,8 @@ public class ClassificationDaoMockBuilder {
 	}
 
 	public ClassificationDaoMockBuilder withGet(int documentCount, Times times) {
-		final Classification anyObject = EasyMock.anyObject(Classification.class);
-		final IExpectationSetters<Category> expectationSetters = EasyMock.expect(classificationDaoMock.get(anyObject)).andReturn(new Category(anyObject, documentCount));
+		final Classification classification = EasyMock.anyObject(Classification.class);
+		final IExpectationSetters<Category> expectationSetters = EasyMock.expect(classificationDaoMock.get(classification)).andReturn(new Category(classification, documentCount));
 		times.setUpCallNumber(expectationSetters);
 		return this;
 	}
